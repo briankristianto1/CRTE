@@ -46,13 +46,13 @@ namespace CRTE
             this.InitializeComponent();
 
             // Establish the Realtime connection
-            ortcClient = new RealtimeFramework.Messaging.OrtcClient();
+            ortcClient = new OrtcClient();
             ortcClient.OnConnected += OnConnected;
             ortcClient.OnException += OnException;
 
             ortcClient.ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
-            ortcClient.Connect("2Ze1dz", "token");
-            // ortcClient.Connect("jXNrX9", "token");
+            //ortcClient.Connect("2Ze1dz", "token");
+             ortcClient.Connect("jXNrX9", "token");
             Message message = new Message();
             message.sentAtDate = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy");
             TxtChat.Text = message.sentAtDate;
@@ -87,7 +87,8 @@ namespace CRTE
             Debug.WriteLine("Received message: " + message);
 
             Message parsedMessage = JsonConvert.DeserializeObject<Message>(message);
-            TxtChat.Text = TxtChat.Text + "\n" + parsedMessage.id + ": " + parsedMessage.text + "\n(" + parsedMessage.sentAt + ")\n";
+            TxtChat.Text += "\n" + parsedMessage.id + " (" + parsedMessage.sentAt + "): " + parsedMessage.text;
+            
 
             // check if message is from another user
             if (!parsedMessage.id.Equals(myID))

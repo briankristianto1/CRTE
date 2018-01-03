@@ -17,7 +17,10 @@
             <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="2" Grid.Row="0" x:Name="TxtChat" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+        <ScrollViewer Height="Auto" Grid.Column="2" Grid.Row="0" x:Name="MyScrollViewer" VerticalScrollBarVisibility="Visible">
+            <TextBlock x:Name="TxtChat" TextWrapping="WrapWholeWords"/>
+        </ScrollViewer>
+        
         <TextBox Grid.Column="2" Grid.Row="1" x:Name="TxtSend" PlaceholderText="Message" AcceptsReturn="False" KeyDown="SendMessage" />
         <TextBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="TxtCoop" />
     </Grid>
