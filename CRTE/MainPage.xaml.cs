@@ -92,26 +92,30 @@ namespace CRTE
         }
 
 
-      
 
-        private async void SendMessage_Click(object sender, RoutedEventArgs e)
+        private async void SendMessage(object sender, KeyRoutedEventArgs e)
         {
-
-            string spokenMessage = "";
-
-            spokenMessage = TxtSend.Text;
-            
-            if (spokenMessage != "")
+            if (e.Key == VirtualKey.Enter)
             {
-                // Send the recognition result text as a Realtime message
-                Message message = new Message();
-                message.id = myID;
-                message.text = spokenMessage;
-                message.sentAt = DateTime.Now.ToLocalTime().ToString();
 
-                string jsonMessage = JsonConvert.SerializeObject(message);
-                Debug.WriteLine("Sending message: " + jsonMessage);
-                ortcClient.Send("chat", jsonMessage);
+
+                string spokenMessage = "";
+
+                spokenMessage = TxtSend.Text;
+
+                if (spokenMessage != "")
+                {
+                    // Send the recognition result text as a Realtime message
+                    Message message = new Message();
+                    message.id = myID;
+                    message.text = spokenMessage;
+                    message.sentAt = DateTime.Now.ToLocalTime().ToString();
+
+                    string jsonMessage = JsonConvert.SerializeObject(message);
+                    Debug.WriteLine("Sending message: " + jsonMessage);
+                    ortcClient.Send("chat", jsonMessage);
+                    TxtSend.Text = "";
+                }
             }
         }
     }
