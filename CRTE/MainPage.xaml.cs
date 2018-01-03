@@ -32,12 +32,14 @@ namespace CRTE
         public string id { get; set; }
         public string text { get; set; }
         public string sentAt { get; set; }
+        public string sentAtDate { get; set; }
     }
 
     public sealed partial class MainPage : Page
     {
         private OrtcClient ortcClient;
         private string myID = "";
+        private string username = "";
 
         public MainPage()
         {
@@ -50,16 +52,20 @@ namespace CRTE
 
             ortcClient.ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
             ortcClient.Connect("2Ze1dz", "token");
-            //            ortcClient.Connect("jXNrX9", "token");
+            // ortcClient.Connect("jXNrX9", "token");
+            Message message = new Message();
+            message.sentAtDate = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy");
+            TxtChat.Text = message.sentAtDate;
         }
 
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //username = e.Parameter as string;
-            Dictionary<string, string> myDictionary = new Dictionary<string, string>();
-            myDictionary = e.Parameter as Dictionary<string, string>;
-            myID = myDictionary["username"].ToString();
+            username = e.Parameter as string;
+            //Dictionary<string, string> myDictionary = new Dictionary<string, string>();
+            //myDictionary = e.Parameter as Dictionary<string, string>;
+            //myID = myDictionary["username"].ToString();
+            myID = username;
             Debug.WriteLine(myID);
             
         }
@@ -67,7 +73,6 @@ namespace CRTE
 
         void OnConnected(object sender)
         {
-
             // Subscribe the Realtime channel
             ortcClient.Subscribe("chat", true, OnMessageCallback);
         }
@@ -82,7 +87,7 @@ namespace CRTE
             Debug.WriteLine("Received message: " + message);
 
             Message parsedMessage = JsonConvert.DeserializeObject<Message>(message);
-            TxtChat.Text = parsedMessage.id + "\n" + parsedMessage.text + "\n\n" + TxtChat.Text;
+            TxtChat.Text = TxtChat.Text + "\n" + parsedMessage.id + ": " + parsedMessage.text + "\n(" + parsedMessage.sentAt + ")\n";
 
             // check if message is from another user
             if (!parsedMessage.id.Equals(myID))
@@ -98,7 +103,6 @@ namespace CRTE
             if (e.Key == VirtualKey.Enter)
             {
 
-
                 string spokenMessage = "";
 
                 spokenMessage = TxtSend.Text;
@@ -109,7 +113,7 @@ namespace CRTE
                     Message message = new Message();
                     message.id = myID;
                     message.text = spokenMessage;
-                    message.sentAt = DateTime.Now.ToLocalTime().ToString();
+                    message.sentAt = DateTime.Now.ToLocalTime().ToString("HH:mm");
 
                     string jsonMessage = JsonConvert.SerializeObject(message);
                     Debug.WriteLine("Sending message: " + jsonMessage);

@@ -20306,7 +20306,7 @@
       ]
     },
     "Newtonsoft.Json/10.0.3": {
-      "sha512": "wBM7i7i3U2WX0ecor4zdVGvgrwFUjuigBoHKiL+nH39fCOpCPjBY3RDqJM32edvdyTAVdjzlccHsg41+/+zpSA==",
+      "sha512": "hSXaFmh7hNCuEoC4XNY5DrRkLDzYHqPx/Ik23R4J86Z7PE/Y6YidhG602dFVdLBRSdG6xp9NabH3dXpcoxWvww==",
       "type": "package",
       "path": "newtonsoft.json/10.0.3",
       "files": [
@@ -27705,20 +27705,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\BrianKristianto\\.nuget\\packages\\": {}
+    "C:\\Users\\ASUS X450J\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\BrianKristianto\\Desktop\\visual\\new crte\\CRTE\\CRTE\\CRTE\\CRTE.csproj",
+      "projectUniqueName": "C:\\Users\\ASUS X450J\\Desktop\\crterbaru\\CRTE\\CRTE\\CRTE.csproj",
       "projectName": "CRTE",
-      "projectPath": "C:\\Users\\BrianKristianto\\Desktop\\visual\\new crte\\CRTE\\CRTE\\CRTE\\CRTE.csproj",
-      "packagesPath": "C:\\Users\\BrianKristianto\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\BrianKristianto\\Desktop\\visual\\new crte\\CRTE\\CRTE\\CRTE\\obj\\",
+      "projectPath": "C:\\Users\\ASUS X450J\\Desktop\\crterbaru\\CRTE\\CRTE\\CRTE.csproj",
+      "packagesPath": "C:\\Users\\ASUS X450J\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\ASUS X450J\\Desktop\\crterbaru\\CRTE\\CRTE\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\BrianKristianto\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\ASUS X450J\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -27726,31 +27726,12 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Users\\BrianKristianto\\Desktop\\FilePendukungPemvis\\FilePendukungPemvis": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "uap10.0.10240": {
           "projectReferences": {}
         }
-      }
-    },
-    "dependencies": {
-      "Microsoft.NETCore.UniversalWindowsPlatform": {
-        "target": "Package",
-        "version": "6.0.5"
-      },
-      "Newtonsoft.Json": {
-        "target": "Package",
-        "version": "10.0.3"
-      },
-      "OpenWebClient.Source": {
-        "target": "Package",
-        "version": "2.0.1"
-      },
-      "RealtimeFramework.Messaging": {
-        "target": "Package",
-        "version": "1.0.0"
       }
     },
     "frameworks": {
