@@ -1,0 +1,68 @@
+﻿<Page
+    x:Class="CRTE.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRTE"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid 
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <SymbolIcon
+                Grid.Row="0" Grid.Column="0"
+                Margin="10"
+                Symbol="Contact"/>
+            <TextBox
+                x:Name="txtUsername"
+                Grid.Row="0" Grid.Column="1"
+                Width="200"
+                VerticalAlignment="Center"
+                PlaceholderText="Username"/>
+            <SymbolIcon
+                Grid.Row="1" Grid.Column="0"
+                Margin="10"
+                Symbol="Permissions"/>
+            <PasswordBox
+                x:Name="txtPassword"
+                Grid.Row="1" Grid.Column="1"
+                Width="200"
+                VerticalAlignment="Center"
+                PlaceholderText="Password"/>
+            <Button 
+                x:Name="loginBtn"
+                Grid.Row="2"
+                Content="Login"
+                HorizontalAlignment="Center" 
+                Width="240" 
+                Grid.ColumnSpan="2"
+                Click="btnLogin_Click"/>
+            <TextBlock 
+                Grid.Row="3"
+                Grid.ColumnSpan="2"
+                HorizontalAlignment="Center"
+                Text="Or"/>
+            <Button 
+                x:Name="regisBtn"
+                Grid.Row="4"
+                Grid.ColumnSpan="2"
+                Content="Register"
+                Width="240"
+                HorizontalAlignment="Center"
+                Click="btnRegister_Click"/>
+        </Grid>
+    </Grid>
+</Page>
