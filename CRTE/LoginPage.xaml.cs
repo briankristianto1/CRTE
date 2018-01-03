@@ -73,10 +73,11 @@ namespace CRTE
                 // tokennya ga perlu dioper kan?
                 if(res.data.message == "login success")
                 {
-                    Dictionary<string, string> newDictionary = new Dictionary<string, string>();
-                    newDictionary.Add("username", username);
-                    newDictionary.Add("publicip", res.data.publicip);
-                    this.Frame.Navigate(typeof(MainPage), newDictionary);
+                    //Dictionary<string, string> newDictionary = new Dictionary<string, string>();
+                    //newDictionary.Add("username", username);
+                    //newDictionary.Add("publicip", res.data.publicip);
+                    //this.Frame.Navigate(typeof(MainPage), newDictionary);
+                    this.Frame.Navigate(typeof(MainPage), username);
                 }
             }
             else
