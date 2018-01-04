@@ -53,11 +53,13 @@ namespace CRTE
         private string chatcode = "chat";
         private string colcode = "chatcoll";
         string base_url = "http://halimbrian.ga/welcome/";
+        private UserList lists = new UserList();
 
         public MainPage()
         {
             this.InitializeComponent();
             ChatCodeDialog();
+            userlist.DataContext = lists;
         }
 
         private async void ChatCodeDialog()
@@ -71,10 +73,23 @@ namespace CRTE
                 {
                     chatcode = text;
                     colcode = text + "coll";
+                    dynamic res =
+                        await RequestFromAPI("addOnlineUser", "username=" + username + "&channel=" + chatcode);
+                    Debug.WriteLine((string)res.message);
+                    
                     ConnectToORTC();
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                        () =>
+                        {
+                            DispatcherTimer dTimer = new DispatcherTimer();
+                            dTimer.Tick += RefreshOnlineUsers;
+                            dTimer.Interval = TimeSpan.FromSeconds(5);
+                            dTimer.Start();
+                        });
                 }
             }
         }
+
 
         void ConnectToORTC()
         {
@@ -89,17 +104,28 @@ namespace CRTE
             Message message = new Message();
             message.sentAtDate = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy");
             TxtChat.Text = message.sentAtDate;
-
         }
 
-        async void RequestFromAPI()
+        private async void RefreshOnlineUsers(object sender, object e)
+        {
+            dynamic res =
+                await RequestFromAPI("getOnlineUser", "channel=" + chatcode);
+            lists.UserLists.Clear();
+            string rawres = (string) res.users;
+            string[] splitedres = rawres.Split(',');
+            foreach (string s in splitedres)
+            {
+                lists.UserLists.Add(s);
+            }
+        }
+
+        async Task<dynamic> RequestFromAPI(string cmds, string param)
         {
             HttpClient httpClient = new HttpClient();
 
-            string url = base_url + "login";
+            string url = base_url + cmds;
             Debug.WriteLine(url);
             // request parameter
-            string param = "username=" + username + "&password=";
             Debug.WriteLine(param);
             // use httpClient.GetAsync() for GET method
             // use httpClient.PostAsync() for POST method
@@ -108,12 +134,7 @@ namespace CRTE
             // get response text as string
             string responseText = await response.Content.ReadAsStringAsync();
             Debug.WriteLine(responseText);
-            JsonArray jsonArray = JsonValue.Parse(responseText).GetArray();
-            string jsonString = jsonArray[0].ToString();
-
-            // convert string json to Object User using DeserializeObject
-            var res = JsonConvert.DeserializeObject<User>(jsonString);
-
+            return JsonConvert.DeserializeObject(responseText);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
