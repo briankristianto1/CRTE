@@ -135,7 +135,7 @@ namespace CRTE
             Debug.WriteLine("Received code: " + message);
 
             Code parsedColl = JsonConvert.DeserializeObject<Code>(message);
-            TxtColl.Text =  parsedColl.data;
+            TxtColl.Document.SetText(Windows.UI.Text.TextSetOptions.None, parsedColl.data);
         }
 
 
@@ -169,7 +169,7 @@ namespace CRTE
         {
             string code = "";
 
-            code = TxtColl.Text;
+            TxtColl.Document.GetText(Windows.UI.Text.TextGetOptions.None, out code);
 
             if (!string.IsNullOrEmpty(code))
             {
@@ -182,7 +182,6 @@ namespace CRTE
                 string jsonMessage = JsonConvert.SerializeObject(code1);
                 Debug.WriteLine("Sending code: " + jsonMessage);
                 ortcClient.Send(colcode, jsonMessage);
-                TxtSend.Text = "";
             }
         }
     }
