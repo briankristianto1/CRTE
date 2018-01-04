@@ -8,7 +8,9 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
+using Windows.Data.Json;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Networking.Connectivity;
@@ -50,11 +52,12 @@ namespace CRTE
         private string username = "";
         private string chatcode = "chat";
         private string colcode = "chatcoll";
+        string base_url = "http://halimbrian.ga/welcome/";
 
         public MainPage()
         {
             this.InitializeComponent();
-            ChatCodeDialog();            
+            ChatCodeDialog();
         }
 
         private async void ChatCodeDialog()
@@ -89,6 +92,29 @@ namespace CRTE
 
         }
 
+        async void RequestFromAPI()
+        {
+            HttpClient httpClient = new HttpClient();
+
+            string url = base_url + "login";
+            Debug.WriteLine(url);
+            // request parameter
+            string param = "username=" + username + "&password=";
+            Debug.WriteLine(param);
+            // use httpClient.GetAsync() for GET method
+            // use httpClient.PostAsync() for POST method
+            HttpResponseMessage response = await httpClient.PostAsync(url, new StringContent(param, Encoding.UTF8, "application/x-www-form-urlencoded"));
+
+            // get response text as string
+            string responseText = await response.Content.ReadAsStringAsync();
+            Debug.WriteLine(responseText);
+            JsonArray jsonArray = JsonValue.Parse(responseText).GetArray();
+            string jsonString = jsonArray[0].ToString();
+
+            // convert string json to Object User using DeserializeObject
+            var res = JsonConvert.DeserializeObject<User>(jsonString);
+
+        }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
