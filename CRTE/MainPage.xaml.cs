@@ -35,12 +35,21 @@ namespace CRTE
         public string sentAtDate { get; set; }
     }
 
+    public class Code
+    {
+        public string id { get; set; }
+        public string data { get; set; }
+        public string sentAt { get; set; }
+        public string sentAtDate { get; set; }
+    }
+
     public sealed partial class MainPage : Page
     {
         private OrtcClient ortcClient;
         private string myID = "";
         private string username = "";
         private string chatcode = "chat";
+        private string colcode = "chatcoll";
 
         public MainPage()
         {
@@ -58,6 +67,7 @@ namespace CRTE
                 if (!string.IsNullOrWhiteSpace(text))
                 {
                     chatcode = text;
+                    colcode = text + "coll";
                     ConnectToORTC();
                 }
             }
@@ -96,6 +106,7 @@ namespace CRTE
         {
             // Subscribe the Realtime channel
             ortcClient.Subscribe(chatcode, true, OnMessageCallback);
+            ortcClient.Subscribe(colcode, true, OnMessageCallback1);
             Debug.WriteLine(chatcode);
         }
 
@@ -117,6 +128,14 @@ namespace CRTE
             {
                 // Say the message
             }
+        }
+
+        private void OnMessageCallback1(object sender, string channel, string message)
+        {
+            Debug.WriteLine("Received code: " + message);
+
+            Code parsedColl = JsonConvert.DeserializeObject<Code>(message);
+            TxtColl.Text =  parsedColl.data;
         }
 
 
@@ -148,7 +167,23 @@ namespace CRTE
 
         private void TxtColl_TextChanged(object sender, RoutedEventArgs e)
         {
+            string code = "";
 
+            code = TxtColl.Text;
+
+            if (!string.IsNullOrEmpty(code))
+            {
+                // Send the recognition result text as a Realtime message
+                Code code1= new Code();
+                code1.id = myID;
+                code1.data = code;
+                code1.sentAt = DateTime.Now.ToLocalTime().ToString("HH:mm");
+
+                string jsonMessage = JsonConvert.SerializeObject(code1);
+                Debug.WriteLine("Sending code: " + jsonMessage);
+                ortcClient.Send(colcode, jsonMessage);
+                TxtSend.Text = "";
+            }
         }
     }
 }
