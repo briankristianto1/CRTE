@@ -145,11 +145,6 @@ namespace CRTE
                 }
             }
         }
-
-        private void TxtColl_TextChanged(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
 /*
