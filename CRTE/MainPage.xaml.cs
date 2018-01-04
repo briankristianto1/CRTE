@@ -73,6 +73,7 @@ namespace CRTE
                 {
                     chatcode = text;
                     colcode = text + "coll";
+                    lists.UserLists.Add("Connecting...");
                     dynamic res =
                         await RequestFromAPI("addOnlineUser", "username=" + username + "&channel=" + chatcode);
                     Debug.WriteLine((string)res.message);
