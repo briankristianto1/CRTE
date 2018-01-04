@@ -19,8 +19,6 @@
                 <RowDefinition />
                 <RowDefinition />
                 <RowDefinition />
-                <RowDefinition />
-                <RowDefinition />
             </Grid.RowDefinitions>
             <SymbolIcon
                 Grid.Row="0" Grid.Column="0"
@@ -46,22 +44,17 @@
                 x:Name="loginBtn"
                 Grid.Row="2"
                 Content="Login"
-                HorizontalAlignment="Center" 
-                Width="240" 
+                HorizontalAlignment="Left" 
+                Width="80" 
                 Grid.ColumnSpan="2"
                 Click="btnLogin_Click"/>
-            <TextBlock 
-                Grid.Row="3"
-                Grid.ColumnSpan="2"
-                HorizontalAlignment="Center"
-                Text="Or"/>
             <Button 
                 x:Name="regisBtn"
-                Grid.Row="4"
+                Grid.Row="2"
                 Grid.ColumnSpan="2"
                 Content="Register"
-                Width="240"
-                HorizontalAlignment="Center"
+                Width="80"
+                HorizontalAlignment="Right"
                 Click="btnRegister_Click"/>
         </Grid>
     </Grid>

@@ -40,11 +40,31 @@ namespace CRTE
         private OrtcClient ortcClient;
         private string myID = "";
         private string username = "";
+        private string chatcode = "chat";
 
         public MainPage()
         {
             this.InitializeComponent();
+            ChatCodeDialog();            
+        }
 
+        private async void ChatCodeDialog()
+        {
+            var dialog1 = new ContentDialog1();
+            var result = await dialog1.ShowAsync();
+            if (result == ContentDialogResult.Primary)
+            {
+                var text = dialog1.Text;
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    chatcode = text;
+                    ConnectToORTC();
+                }
+            }
+        }
+
+        void ConnectToORTC()
+        {
             // Establish the Realtime connection
             ortcClient = new OrtcClient();
             ortcClient.OnConnected += OnConnected;
@@ -52,10 +72,11 @@ namespace CRTE
 
             ortcClient.ClusterUrl = "http://ortc-developers.realtime.co/server/2.1/";
             //ortcClient.Connect("2Ze1dz", "token");
-             ortcClient.Connect("jXNrX9", "token");
+            ortcClient.Connect("jXNrX9", "token");
             Message message = new Message();
             message.sentAtDate = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy");
             TxtChat.Text = message.sentAtDate;
+
         }
 
 
@@ -74,12 +95,13 @@ namespace CRTE
         void OnConnected(object sender)
         {
             // Subscribe the Realtime channel
-            ortcClient.Subscribe("chat", true, OnMessageCallback);
+            ortcClient.Subscribe(chatcode, true, OnMessageCallback);
+            Debug.WriteLine(chatcode);
         }
 
         void OnException(object sender, Exception ex)
         {
-            
+            //Application.Current.Exit();
         }
 
         private void OnMessageCallback(object sender, string channel, string message)
@@ -108,7 +130,7 @@ namespace CRTE
 
                 spokenMessage = TxtSend.Text;
 
-                if (spokenMessage != "")
+                if (!string.IsNullOrEmpty(spokenMessage))
                 {
                     // Send the recognition result text as a Realtime message
                     Message message = new Message();
@@ -118,10 +140,15 @@ namespace CRTE
 
                     string jsonMessage = JsonConvert.SerializeObject(message);
                     Debug.WriteLine("Sending message: " + jsonMessage);
-                    ortcClient.Send("chat", jsonMessage);
+                    ortcClient.Send(chatcode, jsonMessage);
                     TxtSend.Text = "";
                 }
             }
+        }
+
+        private void TxtColl_TextChanged(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
