@@ -182,7 +182,7 @@ namespace CRTE
             Debug.WriteLine("Received code: " + message);
 
             Code parsedColl = JsonConvert.DeserializeObject<Code>(message);
-            TxtColl.Document.Selection.SetText(Windows.UI.Text.TextSetOptions.None, parsedColl.data);
+            TxtColl.Document.SetText(Windows.UI.Text.TextSetOptions.None, parsedColl.data);
         }
 
 
@@ -216,7 +216,7 @@ namespace CRTE
         {
             string code = "";
 
-            TxtColl.Document.Selection.GetText(Windows.UI.Text.TextGetOptions.None, out code);
+            TxtColl.Document.GetText(Windows.UI.Text.TextGetOptions.None, out code);
 
             if (!string.IsNullOrEmpty(code))
             {
