@@ -209,6 +209,10 @@ namespace CRTE
                     Debug.WriteLine("Sending message: " + jsonMessage);
                     ortcClient.Send(chatcode, jsonMessage);
                     TxtSend.Text = "";
+                   
+                    MyScrollViewer.UpdateLayout();
+                    //MyScrollViewer.ChangeView(0.0f, double.MaxValue, 1.0f);
+                    MyScrollViewer.ScrollToVerticalOffset(MyScrollViewer.ScrollableHeight);
                 }
             }
         }
