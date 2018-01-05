@@ -84,7 +84,7 @@ namespace CRTE
                         {
                             DispatcherTimer dTimer = new DispatcherTimer();
                             dTimer.Tick += RefreshOnlineUsers;
-                            dTimer.Interval = TimeSpan.FromSeconds(5);
+                            dTimer.Interval = TimeSpan.FromSeconds(7);
                             dTimer.Start();
                         });
                 }
@@ -234,6 +234,15 @@ namespace CRTE
                 string jsonMessage = JsonConvert.SerializeObject(code1);
                 Debug.WriteLine("Sending code: " + jsonMessage);
                 ortcClient.Send(colcode, jsonMessage);
+            }
+        }
+
+        private async void btnLogout_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic res = await RequestFromAPI("deleteOnlineUser", "username=" + username + "&channel=" + chatcode);
+            if (res.message == "remove success")
+            {
+                this.Frame.Navigate(typeof(LoginPage));
             }
         }
     }
