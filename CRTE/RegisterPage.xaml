@@ -35,7 +35,7 @@
             <SymbolIcon
                 Grid.Row="1" Grid.Column="0"
                 Margin="10"
-                Symbol="Contact"/>
+                Symbol="Mail"/>
             <TextBox
                 x:Name="txtEmail"
                 Grid.Row="1" Grid.Column="1"
@@ -68,6 +68,7 @@
                 Grid.ColumnSpan="2"
                 Content="Register"
                 Width="240"
+                Margin="0 10 0 0"
                 HorizontalAlignment="Center"
                 Click="btnRegister_Click"/>
         </Grid>
