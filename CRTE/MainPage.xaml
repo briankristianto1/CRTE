@@ -18,9 +18,9 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ScrollViewer Height="Auto" Grid.Column="2" Grid.Row="0" x:Name="MyScrollViewer" VerticalScrollBarVisibility="Visible">
-            <TextBlock x:Name="TxtChat" TextWrapping="WrapWholeWords"/>
+            <TextBlock Margin="10" x:Name="TxtChat" TextWrapping="WrapWholeWords"/>
         </ScrollViewer>
-
+        <SymbolIcon Margin="10" Grid.Column="2" Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top" Symbol="Message"></SymbolIcon>
         <TextBox Grid.Column="2" Grid.Row="1" x:Name="TxtSend" PlaceholderText="Message" AcceptsReturn="False" KeyDown="SendMessage" />
         <RichEditBox Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" x:Name="TxtColl" KeyUp="TxtColl_TextChanged"/>
         <ListView ItemsSource="{Binding Path=UserLists}" Width="Auto" x:Name="userlist" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" />
