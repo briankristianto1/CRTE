@@ -74,5 +74,10 @@ namespace CRTE
             await dialog.ShowAsync();
             Window.Current.Close();
         }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            Window.Current.Close();
+        }
     }
 }
