@@ -4,4 +4,7 @@
     <DeviceId>30F105C9-681E-420b-A277-7C086EAD8A4E</DeviceId>
     <UseEmulator>true</UseEmulator>
   </PropertyGroup>
+  <PropertyGroup>
+    <SplashScreenSource>C:\Users\ASUS X450J\Desktop\Picture1.png</SplashScreenSource>
+  </PropertyGroup>
 </Project>
