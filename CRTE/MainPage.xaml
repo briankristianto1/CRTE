@@ -36,5 +36,6 @@
             Height="60"
             Width="200"
             Click="btnLogout_Click"/>
+        <WebView Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" x:Name="webView1" Source="https://www.firecode.io/sharepads/share?room=err"/>
     </Grid>
 </Page>
