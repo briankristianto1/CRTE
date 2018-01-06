@@ -104,7 +104,13 @@ namespace CRTE
             ortcClient.Connect("jXNrX9", "token");
             Message message = new Message();
             message.sentAtDate = DateTime.Now.ToLocalTime().ToString("dd/MM/yyyy");
-            TxtChat.Text = message.sentAtDate;
+            if(message.sentAtDate != null)
+            {
+                TxtChat.Text = message.sentAtDate;
+                TxtSend.IsEnabled = true;
+            }
+            
+
         }
 
         private async void RefreshOnlineUsers(object sender, object e)
