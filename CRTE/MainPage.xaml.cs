@@ -72,6 +72,7 @@ namespace CRTE
                 if (!string.IsNullOrWhiteSpace(text))
                 {
                     chatcode = text;
+                    webView1.Source = new Uri("https://www.firecode.io/sharepads/share?room=" + chatcode);
                     colcode = text + "coll";
                     lists.UserLists.Add("Connecting...");
                     dynamic res =
@@ -160,7 +161,6 @@ namespace CRTE
         {
             // Subscribe the Realtime channel
             ortcClient.Subscribe(chatcode, true, OnMessageCallback);
-            ortcClient.Subscribe(colcode, true, OnMessageCallback1);
             Debug.WriteLine(chatcode);
         }
 
@@ -183,16 +183,6 @@ namespace CRTE
                 // Say the message
             }
         }
-
-        private void OnMessageCallback1(object sender, string channel, string message)
-        {
-            Debug.WriteLine("Received code: " + message);
-
-            Code parsedColl = JsonConvert.DeserializeObject<Code>(message);
-            TxtColl.Document.SetText(Windows.UI.Text.TextSetOptions.None, parsedColl.data);
-        }
-
-
 
         private async void SendMessage(object sender, KeyRoutedEventArgs e)
         {
@@ -220,26 +210,6 @@ namespace CRTE
                     //MyScrollViewer.ChangeView(0.0f, double.MaxValue, 1.0f);
                     MyScrollViewer.ScrollToVerticalOffset(MyScrollViewer.ScrollableHeight);
                 }
-            }
-        }
-
-        private void TxtColl_TextChanged(object sender, RoutedEventArgs e)
-        {
-            string code = "";
-
-            TxtColl.Document.GetText(Windows.UI.Text.TextGetOptions.None, out code);
-
-            if (!string.IsNullOrEmpty(code))
-            {
-                // Send the recognition result text as a Realtime message
-                Code code1= new Code();
-                code1.id = myID;
-                code1.data = code;
-                code1.sentAt = DateTime.Now.ToLocalTime().ToString("HH:mm");
-
-                string jsonMessage = JsonConvert.SerializeObject(code1);
-                Debug.WriteLine("Sending code: " + jsonMessage);
-                ortcClient.Send(colcode, jsonMessage);
             }
         }
 
