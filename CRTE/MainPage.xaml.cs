@@ -86,7 +86,7 @@ namespace CRTE
                         {
                             DispatcherTimer dTimer = new DispatcherTimer();
                             dTimer.Tick += RefreshOnlineUsers;
-                            dTimer.Interval = TimeSpan.FromSeconds(10);
+                            dTimer.Interval = TimeSpan.FromSeconds(5);
                             dTimer.Start();
                         });
                 }
@@ -117,11 +117,12 @@ namespace CRTE
 
         private async void RefreshOnlineUsers(object sender, object e)
         {
-            try { 
+            try
+            {
                 dynamic res =
-                    await RequestFromAPI("getOnlineUser", "channel=" + chatcode);
+                await RequestFromAPI("getOnlineUser", "channel=" + chatcode);
                 lists.UserLists.Clear();
-                string rawres = (string) res.users;
+                string rawres = (string)res.users;
                 string[] splitedres = rawres.Split(',');
                 foreach (string s in splitedres)
                 {
@@ -132,6 +133,7 @@ namespace CRTE
             {
                 Debug.WriteLine(ex);
             }
+            
         }
 
         async Task<dynamic> RequestFromAPI(string cmds, string param)
