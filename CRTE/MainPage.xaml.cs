@@ -75,27 +75,20 @@ namespace CRTE
                     webView1.Source = new Uri("https://www.firecode.io/sharepads/share?room=" + chatcode);
                     colcode = text + "coll";
                     lists.UserLists.Add("Connecting...");
-                    try
-                    {
-                        dynamic res =
-                       await RequestFromAPI("addOnlineUser", "username=" + username + "&channel=" + chatcode);
-                        Debug.WriteLine((string)res.message);
 
-                        ConnectToORTC();
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
-                            () =>
-                            {
-                                DispatcherTimer dTimer = new DispatcherTimer();
-                                dTimer.Tick += RefreshOnlineUsers;
-                                dTimer.Interval = TimeSpan.FromSeconds(10);
-                                dTimer.Start();
-                            });
-                    }
-                    catch(Exception ex)
-                    {
-                        Debug.WriteLine(ex);
-                    }
-                   
+                    dynamic res =
+                        await RequestFromAPI("addOnlineUser", "username=" + username + "&channel=" + chatcode);
+                    Debug.WriteLine((string)res.message);
+                    
+                    ConnectToORTC();
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                        () =>
+                        {
+                            DispatcherTimer dTimer = new DispatcherTimer();
+                            dTimer.Tick += RefreshOnlineUsers;
+                            dTimer.Interval = TimeSpan.FromSeconds(10);
+                            dTimer.Start();
+                        });
                 }
             }
         }
@@ -124,14 +117,20 @@ namespace CRTE
 
         private async void RefreshOnlineUsers(object sender, object e)
         {
-            dynamic res =
-                await RequestFromAPI("getOnlineUser", "channel=" + chatcode);
-            lists.UserLists.Clear();
-            string rawres = (string) res.users;
-            string[] splitedres = rawres.Split(',');
-            foreach (string s in splitedres)
+            try { 
+                dynamic res =
+                    await RequestFromAPI("getOnlineUser", "channel=" + chatcode);
+                lists.UserLists.Clear();
+                string rawres = (string) res.users;
+                string[] splitedres = rawres.Split(',');
+                foreach (string s in splitedres)
+                {
+                    lists.UserLists.Add(s);
+                }
+            }
+            catch (Exception ex)
             {
-                lists.UserLists.Add(s);
+                Debug.WriteLine(ex);
             }
         }
 
