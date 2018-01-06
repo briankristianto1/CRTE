@@ -86,7 +86,7 @@ namespace CRTE
                         {
                             DispatcherTimer dTimer = new DispatcherTimer();
                             dTimer.Tick += RefreshOnlineUsers;
-                            dTimer.Interval = TimeSpan.FromSeconds(7);
+                            dTimer.Interval = TimeSpan.FromSeconds(5);
                             dTimer.Start();
                         });
                 }
@@ -216,8 +216,8 @@ namespace CRTE
                     TxtSend.Text = "";
 
                     MyScrollViewer.UpdateLayout();
-                    //MyScrollViewer.ChangeView(0.0f, double.MaxValue, 1.0f);
-                    MyScrollViewer.ScrollToVerticalOffset(MyScrollViewer.ScrollableHeight);
+                    MyScrollViewer.ChangeView(0.0f, double.MaxValue, 1.0f);
+                    //MyScrollViewer.ScrollToVerticalOffset(MyScrollViewer.ScrollableHeight);
                 }
             }
         }
