@@ -85,7 +85,7 @@ namespace CRTE
                         {
                             DispatcherTimer dTimer = new DispatcherTimer();
                             dTimer.Tick += RefreshOnlineUsers;
-                            dTimer.Interval = TimeSpan.FromSeconds(7);
+                            dTimer.Interval = TimeSpan.FromSeconds(10);
                             dTimer.Start();
                         });
                 }
