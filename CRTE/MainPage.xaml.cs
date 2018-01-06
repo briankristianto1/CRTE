@@ -75,19 +75,27 @@ namespace CRTE
                     webView1.Source = new Uri("https://www.firecode.io/sharepads/share?room=" + chatcode);
                     colcode = text + "coll";
                     lists.UserLists.Add("Connecting...");
-                    dynamic res =
-                        await RequestFromAPI("addOnlineUser", "username=" + username + "&channel=" + chatcode);
-                    Debug.WriteLine((string)res.message);
-                    
-                    ConnectToORTC();
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
-                        () =>
-                        {
-                            DispatcherTimer dTimer = new DispatcherTimer();
-                            dTimer.Tick += RefreshOnlineUsers;
-                            dTimer.Interval = TimeSpan.FromSeconds(10);
-                            dTimer.Start();
-                        });
+                    try
+                    {
+                        dynamic res =
+                       await RequestFromAPI("addOnlineUser", "username=" + username + "&channel=" + chatcode);
+                        Debug.WriteLine((string)res.message);
+
+                        ConnectToORTC();
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                            () =>
+                            {
+                                DispatcherTimer dTimer = new DispatcherTimer();
+                                dTimer.Tick += RefreshOnlineUsers;
+                                dTimer.Interval = TimeSpan.FromSeconds(10);
+                                dTimer.Start();
+                            });
+                    }
+                    catch(Exception ex)
+                    {
+                        Debug.WriteLine(ex);
+                    }
+                   
                 }
             }
         }
