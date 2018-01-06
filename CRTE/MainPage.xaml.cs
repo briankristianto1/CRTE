@@ -16,6 +16,7 @@ using Windows.Foundation.Collections;
 using Windows.Networking.Connectivity;
 using Windows.Networking.Sockets;
 using Windows.System;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -52,7 +53,6 @@ namespace CRTE
         private string username = "";
         private string chatcode = "chat";
         private string colcode = "chatcoll";
-        string base_url = "http://halimbrian.ga/welcome/";
         private UserList lists = new UserList();
 
         public MainPage()
@@ -60,7 +60,9 @@ namespace CRTE
             this.InitializeComponent();
             ChatCodeDialog();
             userlist.DataContext = lists;
+            Application.Current.Suspending += App_Suspending;
         }
+
 
         private async void ChatCodeDialog()
         {
@@ -81,7 +83,7 @@ namespace CRTE
                     Debug.WriteLine((string)res.message);
 
                     ConnectToORTC();
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,
                         () =>
                         {
                             DispatcherTimer dTimer = new DispatcherTimer();
@@ -92,7 +94,15 @@ namespace CRTE
                 }
             }
         }
-
+        async void App_Suspending(Object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            dynamic res = await RequestFromAPI("deleteOnlineUser", "username=" + username + "&channel=" + chatcode);
+            if (res.message == "remove success")
+            {
+                deferral.Complete();
+            }
+        }
 
         void ConnectToORTC()
         {
@@ -111,16 +121,13 @@ namespace CRTE
                 TxtChat.Text = message.sentAtDate;
                 TxtSend.IsEnabled = true;
             }
-
-
         }
 
         private async void RefreshOnlineUsers(object sender, object e)
         {
             try
             {
-                dynamic res =
-                await RequestFromAPI("getOnlineUser", "channel=" + chatcode);
+                dynamic res = await RequestFromAPI("getOnlineUser", "channel=" + chatcode);
                 lists.UserLists.Clear();
                 string rawres = (string)res.users;
                 string[] splitedres = rawres.Split(',');
@@ -136,18 +143,16 @@ namespace CRTE
 
         }
 
-        async Task<dynamic> RequestFromAPI(string cmds, string param)
+        public static async Task<dynamic> RequestFromAPI(string cmds, string param)
         {
             HttpClient httpClient = new HttpClient();
-
-            string url = base_url + cmds;
+            string url = "http://halimbrian.ga/welcome/" + cmds;
             Debug.WriteLine(url);
             // request parameter
             Debug.WriteLine(param);
             // use httpClient.GetAsync() for GET method
             // use httpClient.PostAsync() for POST method
             HttpResponseMessage response = await httpClient.PostAsync(url, new StringContent(param, Encoding.UTF8, "application/x-www-form-urlencoded"));
-
             // get response text as string
             string responseText = await response.Content.ReadAsStringAsync();
             Debug.WriteLine(responseText);
@@ -227,7 +232,7 @@ namespace CRTE
             dynamic res = await RequestFromAPI("deleteOnlineUser", "username=" + username + "&channel=" + chatcode);
             if (res.message == "remove success")
             {
-                this.Frame.Navigate(typeof(LoginPage));
+                this.Frame.GoBack();
             }
         }
     }
